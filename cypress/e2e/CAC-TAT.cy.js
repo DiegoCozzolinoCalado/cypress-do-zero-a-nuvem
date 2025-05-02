@@ -161,13 +161,18 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         .should('not.be.checked')
     })
     
-    it.only('SELECIONA UM ARQUIVO DA PASTA LIXTURES', () => {
-      cy.get('#file-upload')
-        .selectFile('cypress/fixtures/example.json')  /* NO SELECTFILE, E PRECISO IR NA PASTA AO LADO, E PROCURAR POR FIXTURES DEPOIS CLICAR COM O DIREITO EM EXEMPLE.JSON E SELECIONAR COPY RELATIVE PATH */
-          .should(input => { 
-            expect(input[0].file[0].name).to.equal('example.json')
+  it('SELECIONA UM ARQUIVO DA PASTA LIXTURES', () => {
+    cy.get('#file-upload')
+      .selectFile('cypress/fixtures/example.json')  /* NO SELECTFILE, E PRECISO IR NA PASTA AO LADO, E PROCURAR POR FIXTURES DEPOIS CLICAR COM O DIREITO EM EXEMPLE.JSON E SELECIONAR COPY RELATIVE PATH */
+        .should(input => { 
+          expect(input[0].file[0].name).to.equal('example.json')
+      })
+  })
 
-        })
-    })
-})
- 
+  it.only('SELECIONA UM ARQUIVO SIMULANDO UM DRAG-AND-DROP',  () => {
+    cy.get('#file-upload')
+      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' }) 
+        .should(input => { 
+          expect(input[0].file[0].name).to.equal('example.json')           
+      })
+  })
