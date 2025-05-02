@@ -160,19 +160,45 @@ describe('Central de Atendimento ao Cliente TAT', () => {
           /* ESTE SHOULD VERIFICA SE ESTA REALMENTE DESMARCADO */
         .should('not.be.checked')
     })
-    
+  /* AQUI ABAIXO SÃO TRES ALTERNATIVAS DE SUBIR UM ARQUIVO NA FIXTURE, QUANDO CLICA NO BOTÃO ESCOLHER ARQUIVO */ 
   it('SELECIONA UM ARQUIVO DA PASTA LIXTURES', () => {
     cy.get('#file-upload')
       .selectFile('cypress/fixtures/example.json')  /* NO SELECTFILE, E PRECISO IR NA PASTA AO LADO, E PROCURAR POR FIXTURES DEPOIS CLICAR COM O DIREITO EM EXEMPLE.JSON E SELECIONAR COPY RELATIVE PATH */
         .should(input => { 
-          expect(input[0].file[0].name).to.equal('example.json')
+          expect(input[0].files[0].name).to.equal('example.json')
       })
   })
 
-  it.only('SELECIONA UM ARQUIVO SIMULANDO UM DRAG-AND-DROP',  () => {
+  it('SELECIONA UM ARQUIVO SIMULANDO UM DRAG-AND-DROP',  () => {
     cy.get('#file-upload')
       .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' }) 
         .should(input => { 
-          expect(input[0].file[0].name).to.equal('example.json')           
+          expect(input[0].files[0].name).to.equal('example.json')           
       })
   })
+
+  it('SELECIONE UM ARQUIVO UTILIZANDO UMA FIXTURE PARA A QUAL FOI DADA UM ALIAS', () => {
+    cy.fixture('example.json').as('samplefile') /* QUANDO DAMOS UM ALIAS(AS) PARA O SELECTfILE, PARA CHAMAR UMA FUNÇÃO COLOCAMOS O @ NA FRENTE DO NOME FICANDO @samplefile */
+    cy.get('#file-upload')
+      .selectFile('@samplefile', { action: 'drag-drop' }) 
+        .should(input => { 
+          expect(input[0].files[0].name).to.equal('example.json') 
+      })
+  })
+
+  it.only('VERIFICAR QUE A POLÍTICA DE PRIVACIDADE ABRE EM OUTRA ABA SEM A NECESSIDADE DE UM CLIQUE', () => {
+    Cypress
+    cy.contains('a', 'Política de Privacidade')
+      .should('have.attr', 'href', 'privacy.html')
+      .and('have.attr', 'target', '_blank')
+  })
+
+  it.only('ACESSA A PÁGINA DA POLÍTICA DE PRIVACIDADE REMOVENDO O TARGET E ENTÃO CLICANDO NO LINK', () => {
+    cy.contains('a', 'Política de Privacidade')
+      .invoke('removeAttr', 'target')
+      .click()
+
+    cy.contains('h1', 'CAC TAT - Política de Privacidade').should('be.visible')  
+  })
+
+})
