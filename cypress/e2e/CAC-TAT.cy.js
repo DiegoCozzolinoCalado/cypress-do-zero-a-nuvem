@@ -186,14 +186,14 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       })
   })
 
-  it.only('VERIFICAR QUE A POLÍTICA DE PRIVACIDADE ABRE EM OUTRA ABA SEM A NECESSIDADE DE UM CLIQUE', () => {
+  it('VERIFICAR QUE A POLÍTICA DE PRIVACIDADE ABRE EM OUTRA ABA SEM A NECESSIDADE DE UM CLIQUE', () => {
     Cypress
     cy.contains('a', 'Política de Privacidade')
       .should('have.attr', 'href', 'privacy.html')
       .and('have.attr', 'target', '_blank')
   })
 
-  it.only('ACESSA A PÁGINA DA POLÍTICA DE PRIVACIDADE REMOVENDO O TARGET E ENTÃO CLICANDO NO LINK', () => {
+  it('ACESSA A PÁGINA DA POLÍTICA DE PRIVACIDADE REMOVENDO O TARGET E ENTÃO CLICANDO NO LINK', () => {
     cy.contains('a', 'Política de Privacidade')
       .invoke('removeAttr', 'target')
       .click()
